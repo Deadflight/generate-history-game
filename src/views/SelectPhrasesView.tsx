@@ -29,7 +29,7 @@ export const SelectPhrasesView = () => {
 						variant="outlined"
 						color="primary"
 						key={option}
-						onClick={onGetNextPhrasesRequested}
+						onClick={() => onGetNextPhrasesRequested(option)}
 					>
 						{option}
 					</Button>

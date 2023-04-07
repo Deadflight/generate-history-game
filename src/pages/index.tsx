@@ -5,11 +5,14 @@ import { PlayVIew, SelectPhrasesView } from "@/views";
 import { useContext } from "react";
 
 export default function Home() {
-	const { message } = useContext(SocketContext);
+	const { message, activeMessage } = useContext(SocketContext);
+
+	console.log({ message, activeMessage });
 
 	return (
 		<MainLayout>
-			{message.code !== BACKEND_SOCKET_CODES.initialPhrasesRequested.code ? (
+			{message.code !== BACKEND_SOCKET_CODES.fivePhrase.code &&
+			message.code !== BACKEND_SOCKET_CODES.onePhrase.code ? (
 				<PlayVIew />
 			) : (
 				<SelectPhrasesView />

@@ -7,7 +7,10 @@ type SocketActionType =
 	| { type: "[Socket] - Get Socket"; payload: WebSocket }
 	| { type: "[Socket] - Delete Socket" }
 	| { type: "[Socket] - Get Message"; payload: ISocketData }
-	| { type: "[Socket] - ADD Phrase to History"; payload: string };
+	| { type: "[Socket] - ADD Phrase to History"; payload: string }
+	| { type: "[Socket] - ADD New Option"; payload: ISocketData }
+	| { type: "[Socket] - ADD Selected Phrase"; payload: string }
+	| { type: "[Socket] - SET Active Messages"; payload: string[] };
 
 export const socketReducer = (
 	state: SocketState,
@@ -40,6 +43,27 @@ export const socketReducer = (
 			return {
 				...state,
 				history: `${state.history} ${action.payload}`,
+			};
+		}
+
+		case "[Socket] - ADD New Option": {
+			return {
+				...state,
+				message: action.payload,
+			};
+		}
+
+		case "[Socket] - ADD Selected Phrase": {
+			return {
+				...state,
+				selectedPhrase: action.payload,
+			};
+		}
+
+		case "[Socket] - SET Active Messages": {
+			return {
+				...state,
+				activeMessage: action.payload,
 			};
 		}
 
