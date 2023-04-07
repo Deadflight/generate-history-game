@@ -6,6 +6,7 @@ import { ISocketData } from "@/interfaces";
 export interface SocketState {
 	message: ISocketData;
 	socket: WebSocket | null;
+	history: string;
 }
 
 const Socket_INITIAL_STATE: SocketState = {
@@ -13,6 +14,7 @@ const Socket_INITIAL_STATE: SocketState = {
 		code: null,
 	},
 	socket: null,
+	history: "",
 };
 
 export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -69,6 +71,13 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
+	const onAddPhraseToHystory = (phraseToAdd: string) => {
+		dispatch({
+			type: "[Socket] - ADD Phrase to History",
+			payload: phraseToAdd,
+		});
+	};
+
 	return (
 		<SocketContext.Provider
 			value={{
@@ -76,6 +85,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 				//Methods
 				onGetInitialPhrasesRequested,
 				onGetNextPhrasesRequested,
+				onAddPhraseToHystory,
 			}}
 		>
 			{children}
