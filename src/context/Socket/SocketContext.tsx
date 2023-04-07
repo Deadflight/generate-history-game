@@ -5,8 +5,6 @@ interface ContextProps {
 	message: ISocketData;
 	socket: WebSocket | null;
 	history: string;
-	selectedPhrase: string;
-	activeMessage: string[];
 
 	//Methods
 	onGetInitialPhrasesRequested: () => Promise<void>;

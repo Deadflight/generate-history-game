@@ -1,8 +1,9 @@
 import { SocketContext } from "@/context";
 import { Container, Grid, Button } from "@mui/material";
+import Link from "next/link";
 import React, { useContext } from "react";
 
-export const PlayVIew = () => {
+export const HomeVIew = () => {
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
 
 	return (
@@ -21,14 +22,16 @@ export const PlayVIew = () => {
 					justifyContent={"center"}
 					xs={12}
 				>
-					<Button
-						variant="outlined"
-						color="primary"
-						size="medium"
-						onClick={onGetInitialPhrasesRequested}
-					>
-						Jugar
-					</Button>
+					<Link href={"/game"}>
+						<Button
+							variant="outlined"
+							color="primary"
+							size="medium"
+							onClick={onGetInitialPhrasesRequested}
+						>
+							Jugar
+						</Button>
+					</Link>
 				</Grid>
 			</Grid>
 		</Container>

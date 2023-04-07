@@ -1,9 +1,12 @@
 import { SocketContext } from "@/context";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
+import { FullScreenLoadingView } from "./FullScreenLoadingView";
 
 export const SelectPhrasesView = () => {
-	const { message, onGetNextPhrasesRequested } = useContext(SocketContext);
+	const { message, onGetInitialPhrasesRequested } = useContext(SocketContext);
+
+	if (!message?.options) return <FullScreenLoadingView />;
 
 	return (
 		<Box
@@ -24,12 +27,12 @@ export const SelectPhrasesView = () => {
 				justifyItems={"center"}
 				justifyContent={"center"}
 			>
-				{message?.options?.map((option) => (
+				{message?.options?.map((option, index) => (
 					<Button
 						variant="outlined"
 						color="primary"
-						key={option}
-						onClick={() => onGetNextPhrasesRequested(option)}
+						key={`${option} ${index}`}
+						onClick={onGetInitialPhrasesRequested}
 					>
 						{option}
 					</Button>
