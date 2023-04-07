@@ -26,6 +26,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		};
 
 		ws.onmessage = ({ data }: MessageEvent) => {
+			console.log({ data });
 			const message: ISocketData = JSON.parse(data);
 			dispatch({ type: "[Socket] - Get Message", payload: message });
 		};
@@ -43,15 +44,40 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		if (state.message.code === BACKEND_SOCKET_CODES.initialPphrasesRequested) {
+		if (
+			state.message.code === BACKEND_SOCKET_CODES.initialPhrasesRequested.code
+		) {
 			state.socket?.send(
-				JSON.stringify(FRONTEND_SOCKET_CODES.initialPphrasesRequested)
+				JSON.stringify(FRONTEND_SOCKET_CODES.initialPhrasesRequested)
 			);
 		}
 	}, [state.socket, state.message.code]);
 
+	const onGetInitialPhrasesRequested = async () => {
+		if (state.socket) {
+			state.socket.send(
+				JSON.stringify(FRONTEND_SOCKET_CODES.generateInitialPhrasesRequested)
+			);
+		}
+	};
+
+	const onGetNextPhrasesRequested = async () => {
+		if (state.socket) {
+			state.socket.send(
+				JSON.stringify(FRONTEND_SOCKET_CODES.nextPhrasesRequested)
+			);
+		}
+	};
+
 	return (
-		<SocketContext.Provider value={{ ...state }}>
+		<SocketContext.Provider
+			value={{
+				...state,
+				//Methods
+				onGetInitialPhrasesRequested,
+				onGetNextPhrasesRequested,
+			}}
+		>
 			{children}
 		</SocketContext.Provider>
 	);
