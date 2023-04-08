@@ -3,7 +3,7 @@ import { Container, Grid, Button } from "@mui/material";
 import Link from "next/link";
 import React, { useContext } from "react";
 
-export const HomeVIew = () => {
+export const PlayGameView = () => {
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
 
 	return (
@@ -22,7 +22,7 @@ export const HomeVIew = () => {
 					justifyContent={"center"}
 					xs={12}
 				>
-					<Link href={"/game"}>
+					<Link href={"/game"} replace>
 						<Button
 							variant="outlined"
 							color="primary"

@@ -1,12 +1,20 @@
 import { SocketContext } from "@/context";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { FullScreenLoadingView } from "./FullScreenLoadingView";
 
 export const SelectPhrasesView = () => {
-	const { message, onGetInitialPhrasesRequested } = useContext(SocketContext);
+	const {
+		isLoadingSocket,
+		message,
+		onGetInitialPhrasesRequested,
+		onAddPhraseToHystory,
+	} = useContext(SocketContext);
 
-	if (!message?.options) return <FullScreenLoadingView />;
+	const onSelectPhrase = (phrase: string) => {
+		onAddPhraseToHystory(phrase);
+		onGetInitialPhrasesRequested();
+	};
 
 	return (
 		<Box
@@ -27,16 +35,20 @@ export const SelectPhrasesView = () => {
 				justifyItems={"center"}
 				justifyContent={"center"}
 			>
-				{message?.options?.map((option, index) => (
-					<Button
-						variant="outlined"
-						color="primary"
-						key={`${option} ${index}`}
-						onClick={onGetInitialPhrasesRequested}
-					>
-						{option}
-					</Button>
-				))}
+				{isLoadingSocket ? (
+					<CircularProgress thickness={2} />
+				) : (
+					message?.options?.map((option, index) => (
+						<Button
+							variant="outlined"
+							color="primary"
+							key={`${option} ${index}`}
+							onClick={() => onSelectPhrase(option)}
+						>
+							{option}
+						</Button>
+					))
+				)}
 			</Grid>
 		</Box>
 	);

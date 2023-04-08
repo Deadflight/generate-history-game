@@ -5,10 +5,10 @@ interface ContextProps {
 	message: ISocketData;
 	socket: WebSocket | null;
 	history: string;
+	isLoadingSocket: boolean;
 
 	//Methods
 	onGetInitialPhrasesRequested: () => Promise<void>;
-	onGetNextPhrasesRequested: (pharaseChosed: string) => Promise<void>;
 	onAddPhraseToHystory: (phraseToAdd: string) => void;
 }
 
