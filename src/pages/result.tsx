@@ -1,20 +1,21 @@
-import React from "react";
+import { SocketContext } from "@/context";
+import { FullScreenLoadingView } from "@/views";
+import { useRouter } from "next/router";
+import React, { FC, useContext, useEffect } from "react";
 
-const ResultPage = () => {
+const ResultPage: FC = () => {
+	const { message } = useContext(SocketContext);
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!message.options) {
+			router.replace("/");
+		}
+	}, [router, message.options]);
+
+	if (!message.options) return <FullScreenLoadingView />;
+
 	return <div>result</div>;
-};
-
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-import { GetServerSideProps } from "next";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	// const { data } = await  // your fetch function here
-	console.log(ctx.req.socket);
-
-	return {
-		props: {},
-	};
 };
 
 export default ResultPage;

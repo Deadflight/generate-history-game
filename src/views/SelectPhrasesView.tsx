@@ -31,15 +31,18 @@ export const SelectPhrasesView = () => {
 
 	useEffect(() => {
 		if (countdown < 0) {
-			router.push("result");
+			router.replace("/result");
 		}
 	}, [countdown, router]);
 
 	return (
 		<Box>
-			<Box display={"flex"} justifyContent={"end"}>
-				<TimeField value={new Date(countdown)} format={"mm:ss"} readOnly />
-			</Box>
+			{message.options ? (
+				<Box display={"flex"} justifyContent={"end"}>
+					<TimeField value={new Date(countdown)} format={"mm:ss"} readOnly />
+				</Box>
+			) : null}
+
 			<Typography textAlign={"center"} gutterBottom>
 				Selecciona una Frase
 			</Typography>
