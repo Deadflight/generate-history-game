@@ -1,3 +1,4 @@
+import type {} from "@mui/x-date-pickers/themeAugmentation";
 import { createTheme } from "@mui/material/styles";
 
 export const lightTheme = createTheme({
@@ -14,6 +15,15 @@ export const lightTheme = createTheme({
 		},
 	},
 	components: {
+		MuiDatePicker: {
+			styleOverrides: {
+				root: {
+					backgroundColor: "red",
+					height: 80,
+					display: "flex",
+				},
+			},
+		},
 		MuiLink: {
 			defaultProps: {
 				underline: "none",

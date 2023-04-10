@@ -1,9 +1,13 @@
 import { SocketContext } from "@/context";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
-import { FullScreenLoadingView } from "./FullScreenLoadingView";
+import React, { useContext, useEffect, useMemo } from "react";
+import { TimeField } from "@mui/x-date-pickers";
+import { useCountdown } from "@/hooks";
+import { useRouter } from "next/router";
 
 export const SelectPhrasesView = () => {
+	const router = useRouter();
+
 	const {
 		isLoadingSocket,
 		message,
@@ -16,14 +20,26 @@ export const SelectPhrasesView = () => {
 		onGetInitialPhrasesRequested();
 	};
 
+	const targetDate = useMemo(() => {
+		const date = new Date();
+		date.setMinutes(date.getMinutes() + 2);
+
+		return date;
+	}, []);
+
+	const { countdown } = useCountdown(targetDate);
+
+	useEffect(() => {
+		if (countdown < 0) {
+			router.push("result");
+		}
+	}, [countdown, router]);
+
 	return (
-		<Box
-			display={"flex"}
-			flexDirection={"column"}
-			alignItems={"center"}
-			justifyContent={"center"}
-			minHeight={"100vh"}
-		>
+		<Box>
+			<Box display={"flex"} justifyContent={"end"}>
+				<TimeField value={new Date(countdown)} format={"mm:ss"} readOnly />
+			</Box>
 			<Typography textAlign={"center"} gutterBottom>
 				Selecciona una Frase
 			</Typography>

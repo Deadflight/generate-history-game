@@ -31,6 +31,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		};
 
 		ws.onmessage = ({ data }: MessageEvent) => {
+			console.log({ data });
 			const message: ISocketData = JSON.parse(data);
 			dispatch({ type: "[Socket] - Get Message", payload: message });
 		};
