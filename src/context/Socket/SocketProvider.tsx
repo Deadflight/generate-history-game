@@ -24,6 +24,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(socketReducer, Socket_INITIAL_STATE);
 
 	useEffect(() => {
+		console.log("socket");
 		const ws = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
 
 		ws.onopen = () => {
