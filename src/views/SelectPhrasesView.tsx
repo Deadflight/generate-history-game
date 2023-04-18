@@ -32,7 +32,6 @@ export const SelectPhrasesView = () => {
 	const { countdown } = useCountdown(targetDate);
 
 	useEffect(() => {
-		console.log("go to result");
 		if (countdown < 0) {
 			router.replace(`game/result`);
 		}
@@ -55,6 +54,7 @@ export const SelectPhrasesView = () => {
 				container
 				display={"grid"}
 				gridTemplateColumns="repeat(auto-fit, minmax(200px, 1fr))"
+				gridAutoRows={"1fr"}
 				gap={2}
 				justifyItems={"center"}
 				justifyContent={"center"}

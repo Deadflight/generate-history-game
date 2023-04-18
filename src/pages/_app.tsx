@@ -9,7 +9,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { lightTheme } from "../themes";
-import { SWRConfig } from "swr";
 
 interface PageProps {
 	fallbackData: any;
@@ -17,19 +16,13 @@ interface PageProps {
 
 export default function App({ Component, pageProps }: AppProps<PageProps>) {
 	return (
-		<SWRConfig
-			value={{
-				fallbackData: pageProps.fallbackData,
-			}}
-		>
-			<SocketProvider>
-				<ThemeProvider theme={lightTheme}>
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<CssBaseline />
-						<Component {...pageProps} />
-					</LocalizationProvider>
-				</ThemeProvider>
-			</SocketProvider>
-		</SWRConfig>
+		<SocketProvider>
+			<ThemeProvider theme={lightTheme}>
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<CssBaseline />
+					<Component {...pageProps} />
+				</LocalizationProvider>
+			</ThemeProvider>
+		</SocketProvider>
 	);
 }

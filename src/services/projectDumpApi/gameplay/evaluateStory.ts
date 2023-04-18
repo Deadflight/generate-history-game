@@ -1,4 +1,8 @@
-import { IEvaluateHistory, IEvaluateHistoryBody } from "@/interfaces";
+import {
+	IEvaluateHistory,
+	IEvaluateHistoryBody,
+	IEvaluateHistoryResponse,
+} from "@/interfaces";
 import { projectDumpApi } from "@/lib";
 import axios from "axios";
 
@@ -6,12 +10,13 @@ export const evaluateStory = async (
 	story: string
 ): Promise<IEvaluateHistory> => {
 	try {
-		const { data, status } = await projectDumpApi.post(
-			`/gameplay/evaluate-story`,
-			{
-				story,
-			}
-		);
+		const { data, status } =
+			await projectDumpApi.post<IEvaluateHistoryResponse>(
+				`/gameplay/evaluate-story/`,
+				{
+					story,
+				}
+			);
 
 		return {
 			data,

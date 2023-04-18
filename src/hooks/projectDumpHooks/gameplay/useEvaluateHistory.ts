@@ -5,7 +5,12 @@ import { useContext, useEffect, useState } from "react";
 
 export const useEvaluateHistory = () => {
 	const { history } = useContext(SocketContext);
-	const [results, setResults] = useState<IEvaluateHistory>();
+	const [results, setResults] = useState<IEvaluateHistory>({
+		data: null,
+		status: null,
+		message: "",
+	});
+	const [isEvaluatingHistory, setIsEvaluatingHistory] = useState(true);
 
 	useEffect(() => {
 		const onGetResult = async () => {
@@ -16,6 +21,8 @@ export const useEvaluateHistory = () => {
 				status,
 				message,
 			});
+
+			setIsEvaluatingHistory(false);
 		};
 
 		onGetResult();
@@ -23,5 +30,6 @@ export const useEvaluateHistory = () => {
 
 	return {
 		...results,
+		isEvaluatingHistory,
 	};
 };

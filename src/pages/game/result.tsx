@@ -1,17 +1,26 @@
+import { ScoreResult } from "@/components/ScoreResult";
 import { useEvaluateHistory } from "@/hooks";
 import { FullScreenLoadingView } from "@/views";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 
 const ResultPage = () => {
-	const { data, status } = useEvaluateHistory();
+	const { data, status, isEvaluatingHistory } = useEvaluateHistory();
 	const navigate = useRouter();
 
-	if (!data) {
-		navigate.push(`/${status}`);
-	}
+	useEffect(() => {
+		if (!data && !isEvaluatingHistory) {
+			navigate.push(`/${status}`);
+		}
+	}, [data, navigate, status, isEvaluatingHistory]);
 
-	return !data ? <FullScreenLoadingView /> : <h1>Result Page</h1>;
+	return isEvaluatingHistory ? (
+		<FullScreenLoadingView />
+	) : (
+		<>
+			<ScoreResult score={data?.score!} />
+		</>
+	);
 };
 
 export default ResultPage;
