@@ -10,7 +10,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { lightTheme } from "../themes";
 
-export default function App({ Component, pageProps }: AppProps) {
+interface PageProps {
+	fallbackData: any;
+}
+
+export default function App({ Component, pageProps }: AppProps<PageProps>) {
 	return (
 		<SocketProvider>
 			<ThemeProvider theme={lightTheme}>

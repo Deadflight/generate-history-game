@@ -24,6 +24,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(socketReducer, Socket_INITIAL_STATE);
 
 	useEffect(() => {
+		console.log("socket");
 		const ws = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
 
 		ws.onopen = () => {
@@ -69,6 +70,10 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
+	const onResetToInitialState = () => {
+		dispatch({ type: "[Socket] - Reset State", payload: Socket_INITIAL_STATE });
+	};
+
 	const onAddPhraseToHystory = (phraseToAdd: string) => {
 		dispatch({
 			type: "[Socket] - ADD Phrase to History",
@@ -86,6 +91,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 
 				//Methods
 				onGetInitialPhrasesRequested,
+				onResetToInitialState,
 				onAddPhraseToHystory,
 			}}
 		>
