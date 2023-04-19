@@ -6,7 +6,10 @@ type SocketActionType =
 	| { type: "[Socket] - Generate Initial Phrases" }
 	| { type: "[Socket] - Get Socket"; payload: WebSocket }
 	| { type: "[Socket] - Delete Socket" }
-	| { type: "[Socket] - Get Message"; payload: ISocketData };
+	| { type: "[Socket] - Get Message"; payload: ISocketData }
+	| { type: "[Socket] - ADD Phrase to History"; payload: string }
+	| { type: "[Socket] - Is Loading Socket"; payload: boolean }
+	| { type: "[Socket] - Reset State"; payload: SocketState };
 
 export const socketReducer = (
 	state: SocketState,
@@ -32,6 +35,30 @@ export const socketReducer = (
 			return {
 				...state,
 				message: action.payload,
+			};
+		}
+
+		case "[Socket] - ADD Phrase to History": {
+			return {
+				...state,
+				history: action.payload,
+			};
+		}
+
+		case "[Socket] - Is Loading Socket": {
+			return {
+				...state,
+				isLoadingSocket: action.payload,
+			};
+		}
+
+		case "[Socket] - Reset State": {
+			return {
+				...state,
+				message: {
+					code: null,
+				},
+				history: "",
 			};
 		}
 

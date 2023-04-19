@@ -3,4 +3,4 @@ export interface ISocketData {
 	options?: string[];
 }
 
-export type CodeType = "G200" | "GP205" | null;
+export type CodeType = "BGP-200" | "BGP-205" | null;

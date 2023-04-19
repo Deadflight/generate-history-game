@@ -17,4 +17,10 @@ export const BACKEND_SOCKET_CODES = {
 	initialPhrasesStillNotGenerated: {
 		code: "BGP-205",
 	},
+	onePhrase: {
+		code: "P-1",
+	},
+	fivePhrase: {
+		code: "P-5",
+	},
 };

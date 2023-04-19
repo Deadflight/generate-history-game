@@ -6,19 +6,25 @@ import { ISocketData } from "@/interfaces";
 export interface SocketState {
 	message: ISocketData;
 	socket: WebSocket | null;
+	history: string;
+	isLoadingSocket: boolean;
 }
 
 const Socket_INITIAL_STATE: SocketState = {
 	message: {
 		code: null,
 	},
+
 	socket: null,
+	history: "",
+	isLoadingSocket: false,
 };
 
 export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(socketReducer, Socket_INITIAL_STATE);
 
 	useEffect(() => {
+		console.log("socket");
 		const ws = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
 
 		ws.onopen = () => {
@@ -51,9 +57,12 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 				JSON.stringify(FRONTEND_SOCKET_CODES.initialPhrasesRequested)
 			);
 		}
+
+		dispatch({ type: "[Socket] - Is Loading Socket", payload: false });
 	}, [state.socket, state.message.code]);
 
 	const onGetInitialPhrasesRequested = async () => {
+		dispatch({ type: "[Socket] - Is Loading Socket", payload: true });
 		if (state.socket) {
 			state.socket.send(
 				JSON.stringify(FRONTEND_SOCKET_CODES.generateInitialPhrasesRequested)
@@ -61,21 +70,29 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
-	const onGetNextPhrasesRequested = async () => {
-		if (state.socket) {
-			state.socket.send(
-				JSON.stringify(FRONTEND_SOCKET_CODES.nextPhrasesRequested)
-			);
-		}
+	const onResetToInitialState = () => {
+		dispatch({ type: "[Socket] - Reset State", payload: Socket_INITIAL_STATE });
+	};
+
+	const onAddPhraseToHystory = (phraseToAdd: string) => {
+		dispatch({
+			type: "[Socket] - ADD Phrase to History",
+			payload:
+				state.history.length === 0
+					? phraseToAdd
+					: `${state.history} ${phraseToAdd}`,
+		});
 	};
 
 	return (
 		<SocketContext.Provider
 			value={{
 				...state,
+
 				//Methods
 				onGetInitialPhrasesRequested,
-				onGetNextPhrasesRequested,
+				onResetToInitialState,
+				onAddPhraseToHystory,
 			}}
 		>
 			{children}
