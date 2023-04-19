@@ -1,8 +1,4 @@
-import {
-	IEvaluateHistory,
-	IEvaluateHistoryBody,
-	IEvaluateHistoryResponse,
-} from "@/interfaces";
+import { IEvaluateHistory, IEvaluateHistoryResponse } from "@/interfaces";
 import { projectDumpApi } from "@/lib";
 import axios from "axios";
 
