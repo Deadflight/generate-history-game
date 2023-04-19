@@ -8,7 +8,8 @@ type SocketActionType =
 	| { type: "[Socket] - Delete Socket" }
 	| { type: "[Socket] - Get Message"; payload: ISocketData }
 	| { type: "[Socket] - ADD Phrase to History"; payload: string }
-	| { type: "[Socket] - Is Loading Socket"; payload: boolean };
+	| { type: "[Socket] - Is Loading Socket"; payload: boolean }
+	| { type: "[Socket] - Reset State"; payload: SocketState };
 
 export const socketReducer = (
 	state: SocketState,
@@ -48,6 +49,16 @@ export const socketReducer = (
 			return {
 				...state,
 				isLoadingSocket: action.payload,
+			};
+		}
+
+		case "[Socket] - Reset State": {
+			return {
+				...state,
+				message: {
+					code: null,
+				},
+				history: "",
 			};
 		}
 

@@ -11,12 +11,10 @@ export const HistoryTextGeneratedView = () => {
 			display={!!history ? "flex" : "none"}
 			justifyContent={"center"}
 		>
-			<Grid item xs={5}>
+			<Grid item>
 				<Card>
 					<CardContent>
-						<Typography variant="body1">
-							Tu Historia hasta el momento
-						</Typography>
+						<Typography variant="body1">Tu Historia</Typography>
 						<Typography variant="body2">{history}</Typography>
 					</CardContent>
 				</Card>

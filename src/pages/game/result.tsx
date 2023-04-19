@@ -1,25 +1,42 @@
 import { ScoreResult } from "@/components/ScoreResult";
+import { SocketContext } from "@/context";
 import { useEvaluateHistory } from "@/hooks";
-import { FullScreenLoadingView } from "@/views";
+import { FullScreenLoadingView, HistoryTextGeneratedView } from "@/views";
+import { Box, Button, Container } from "@mui/material";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 
 const ResultPage = () => {
-	const { data, status, isEvaluatingHistory } = useEvaluateHistory();
-	const navigate = useRouter();
+	const { data, isEvaluatingHistory } = useEvaluateHistory();
+	const { onGetInitialPhrasesRequested, onResetToInitialState } =
+		useContext(SocketContext);
+	const router = useRouter();
 
-	useEffect(() => {
-		if (!data && !isEvaluatingHistory) {
-			navigate.push(`/${status}`);
-		}
-	}, [data, navigate, status, isEvaluatingHistory]);
+	const onMakeAnotherHistory = async () => {
+		onResetToInitialState();
+		await onGetInitialPhrasesRequested();
+		router.push("/game");
+	};
 
-	return isEvaluatingHistory ? (
+	return isEvaluatingHistory || !data ? (
 		<FullScreenLoadingView />
 	) : (
-		<>
-			<ScoreResult score={data?.score!} />
-		</>
+		<Container maxWidth="sm">
+			<Box display={"flex"} flexDirection={"column"} gap={2}>
+				<ScoreResult score={data?.score!} />
+				<HistoryTextGeneratedView />
+
+				<Button
+					variant="outlined"
+					color="primary"
+					size="medium"
+					onClick={onMakeAnotherHistory}
+				>
+					Crear Otra Historia
+				</Button>
+			</Box>
+		</Container>
 	);
 };
 

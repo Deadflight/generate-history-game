@@ -9,6 +9,7 @@ interface ContextProps {
 
 	//Methods
 	onGetInitialPhrasesRequested: () => Promise<void>;
+	onResetToInitialState: () => void;
 	onAddPhraseToHystory: (phraseToAdd: string) => void;
 }
 

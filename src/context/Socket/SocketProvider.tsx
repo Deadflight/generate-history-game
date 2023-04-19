@@ -70,6 +70,10 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		}
 	};
 
+	const onResetToInitialState = () => {
+		dispatch({ type: "[Socket] - Reset State", payload: Socket_INITIAL_STATE });
+	};
+
 	const onAddPhraseToHystory = (phraseToAdd: string) => {
 		dispatch({
 			type: "[Socket] - ADD Phrase to History",
@@ -87,6 +91,7 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 
 				//Methods
 				onGetInitialPhrasesRequested,
+				onResetToInitialState,
 				onAddPhraseToHystory,
 			}}
 		>

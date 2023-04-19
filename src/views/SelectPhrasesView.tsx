@@ -44,7 +44,6 @@ export const SelectPhrasesView = () => {
 					<TimeField value={new Date(countdown)} format={"mm:ss"} readOnly />
 				</Box>
 			) : null}
-
 			<Typography textAlign={"center"} gutterBottom>
 				Selecciona una Frase
 			</Typography>
@@ -59,7 +58,7 @@ export const SelectPhrasesView = () => {
 				justifyItems={"center"}
 				justifyContent={"center"}
 			>
-				{isLoadingSocket ? (
+				{isLoadingSocket || !message?.options ? (
 					<CircularProgress thickness={2} />
 				) : (
 					message?.options?.map((option, index) => (
