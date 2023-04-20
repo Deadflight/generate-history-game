@@ -1,21 +1,15 @@
-import { SocketContext } from "@/context";
+import { GameContext, SocketContext } from "@/context";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
-import React, { useContext, useEffect, useMemo } from "react";
-import { TimeField } from "@mui/x-date-pickers";
-import { useCountdown } from "@/hooks";
+import React, { useContext, useMemo } from "react";
+import { Countdown } from "@/components";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 export const SelectPhrasesView = () => {
+	const { isLoadingSocket, message, onGetInitialPhrasesRequested } =
+		useContext(SocketContext);
 	const router = useRouter();
 
-	const {
-		isLoadingSocket,
-		message,
-		history,
-		onGetInitialPhrasesRequested,
-		onAddPhraseToHystory,
-	} = useContext(SocketContext);
+	const { onAddPhraseToHystory, onGetScoreResult } = useContext(GameContext);
 
 	const onSelectPhrase = (phrase: string) => {
 		onAddPhraseToHystory(phrase);
@@ -29,26 +23,24 @@ export const SelectPhrasesView = () => {
 		return date;
 	}, []);
 
-	const { countdown } = useCountdown(targetDate);
-
-	useEffect(() => {
-		if (countdown < 0) {
-			router.replace(`game/result`);
-		}
-	}, [countdown, router, history]);
+	const onGetResult = async () => {
+		await onGetScoreResult();
+		router.push("/game/result");
+	};
 
 	return (
 		<Box>
 			{message?.options ? (
 				<Box display={"flex"} justifyContent={"end"}>
-					<TimeField value={new Date(countdown)} format={"mm:ss"} readOnly />
+					<Countdown targetDate={targetDate} />
 				</Box>
 			) : null}
 			<Typography textAlign={"center"} gutterBottom>
 				Selecciona una Frase
 			</Typography>
 
-			<Link href={`game/result`}>History</Link>
+			<Button onClick={onGetResult}>History</Button>
+
 			<Grid
 				container
 				display={"grid"}
