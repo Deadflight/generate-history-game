@@ -20,7 +20,6 @@ export const evaluateStory = async (
 			message: "",
 		};
 	} catch (error) {
-		console.log(error);
 		if (axios.isAxiosError(error)) {
 			return {
 				data: null,
