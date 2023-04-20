@@ -1,8 +1,4 @@
-import {
-	IEvaluateHistory,
-	IEvaluateHistoryBody,
-	IEvaluateHistoryResponse,
-} from "@/interfaces";
+import { IEvaluateHistory, IEvaluateHistoryResponse } from "@/interfaces";
 import { projectDumpApi } from "@/lib";
 import axios from "axios";
 
@@ -24,7 +20,6 @@ export const evaluateStory = async (
 			message: "",
 		};
 	} catch (error) {
-		console.log(error);
 		if (axios.isAxiosError(error)) {
 			return {
 				data: null,

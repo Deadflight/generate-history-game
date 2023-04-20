@@ -1,25 +1,22 @@
-import { ScoreResult } from "@/components/ScoreResult";
-import { useEvaluateHistory } from "@/hooks";
-import { FullScreenLoadingView } from "@/views";
+import { GameContext } from "@/context";
+import { FullScreenLoadingView, ResultView } from "@/views";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 const ResultPage = () => {
-	const { data, status, isEvaluatingHistory } = useEvaluateHistory();
-	const navigate = useRouter();
+	const { isGameCtxLoading, scoreResult } = useContext(GameContext);
+	const router = useRouter();
 
 	useEffect(() => {
-		if (!data && !isEvaluatingHistory) {
-			navigate.push(`/${status}`);
+		if (!isGameCtxLoading && scoreResult.score < 0) {
+			router.push("/");
 		}
-	}, [data, navigate, status, isEvaluatingHistory]);
+	}, [router, isGameCtxLoading, scoreResult.score]);
 
-	return isEvaluatingHistory ? (
+	return isGameCtxLoading || scoreResult.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
-		<>
-			<ScoreResult score={data?.score!} />
-		</>
+		<ResultView />
 	);
 };
 
