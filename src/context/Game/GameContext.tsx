@@ -1,16 +1,12 @@
-import { IEvaluateHistoryResponse } from "@/interfaces";
 import { createContext } from "react";
+import { GameState } from "./GameProvider";
 
-interface ContextProps {
-	history: string;
-	scoreResult: IEvaluateHistoryResponse;
-	isGameCtxLoading: boolean;
-
+interface ContextProps extends GameState {
 	//Methods
+	onNewGame: () => void;
 	onAddPhraseToHystory: (phraseToAdd: string) => void;
-	onGetScoreResult: () => Promise<void>;
-	onGameToggleLoading: (isLoading: boolean) => void;
 	onResetGameToInitialState: () => void;
+	onGetResult: () => Promise<void>;
 }
 
 export const GameContext = createContext({} as ContextProps);

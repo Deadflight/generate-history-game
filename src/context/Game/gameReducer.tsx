@@ -6,6 +6,7 @@ type GameActionType =
 	| { type: "[Game] - Get Score Result"; payload: IEvaluateHistoryResponse }
 	| { type: "[Game] - Toggle Loading"; payload: boolean }
 	| { type: "[Game] - Reset State"; payload: GameState }
+	| { type: "[Game] - New Game" }
 	| { type: "[Game] - ADD Phrase to History"; payload: string };
 
 export const gameReducer = (
@@ -13,6 +14,16 @@ export const gameReducer = (
 	action: GameActionType
 ): GameState => {
 	switch (action.type) {
+		case "[Game] - New Game":
+			return {
+				...state,
+				history: "",
+				isGameCtxLoading: false,
+				scoreResult: {
+					score: -1,
+				},
+			};
+
 		case "[Game] - Get Score Result":
 			return {
 				...state,
