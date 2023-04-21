@@ -17,7 +17,7 @@ const ResultPage = () => {
 		router.push("/game");
 	};
 
-	return isGameCtxLoading || scoreResult?.score < 0 ? (
+	return isGameCtxLoading && scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
 		<Container maxWidth="sm">
