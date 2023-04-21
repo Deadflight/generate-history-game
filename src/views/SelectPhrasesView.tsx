@@ -9,7 +9,7 @@ export const SelectPhrasesView = () => {
 		useContext(SocketContext);
 	const router = useRouter();
 
-	const { onAddPhraseToHystory, onGetScoreResult } = useContext(GameContext);
+	const { onAddPhraseToHystory } = useContext(GameContext);
 
 	const onSelectPhrase = (phrase: string) => {
 		onAddPhraseToHystory(phrase);
@@ -24,7 +24,6 @@ export const SelectPhrasesView = () => {
 	}, []);
 
 	const onGetResult = async () => {
-		await onGetScoreResult();
 		router.push("/game/result");
 	};
 
