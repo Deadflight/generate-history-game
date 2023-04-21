@@ -45,12 +45,17 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 		dispatch({ type: "[Game] - Reset State", payload: GAME_INITIAL_STATE });
 	};
 
+	const onNewGame = () => {
+		dispatch({ type: "[Game] - New Game" });
+	};
+
 	return (
 		<GameContext.Provider
 			value={{
 				...state,
 
 				//Methods
+				onNewGame,
 				onResetGameToInitialState,
 				onAddPhraseToHystory,
 				onGetResult,

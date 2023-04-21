@@ -9,22 +9,15 @@ const ResultPage = () => {
 	const router = useRouter();
 
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
-	const { scoreResult, isGameCtxLoading, onResetGameToInitialState } =
-		useContext(GameContext);
+	const { scoreResult, isGameCtxLoading, onNewGame } = useContext(GameContext);
 
 	const onMakeAnotherHistory = async () => {
 		await onGetInitialPhrasesRequested();
-		onResetGameToInitialState();
+		onNewGame();
 		router.push("/game");
 	};
 
-	useEffect(() => {
-		if (!isGameCtxLoading && scoreResult?.score < 0) {
-			router.push("/");
-		}
-	}, [router, isGameCtxLoading, scoreResult?.score]);
-
-	return isGameCtxLoading && scoreResult?.score < 0 ? (
+	return isGameCtxLoading || scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
 		<Container maxWidth="sm">
