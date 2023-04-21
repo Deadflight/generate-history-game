@@ -1,10 +1,17 @@
 import { SocketContext } from "@/context";
 import { Container, Grid, Button } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
 
 export const PlayGameView = () => {
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
+	const router = useRouter();
+
+	const onPlayGame = async () => {
+		await onGetInitialPhrasesRequested();
+		router.push("/game");
+	};
 
 	return (
 		<Container>
@@ -27,7 +34,7 @@ export const PlayGameView = () => {
 							variant="outlined"
 							color="primary"
 							size="medium"
-							onClick={onGetInitialPhrasesRequested}
+							onClick={onPlayGame}
 						>
 							Jugar
 						</Button>

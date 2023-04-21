@@ -1,18 +1,26 @@
 import { FC, PropsWithChildren, useReducer } from "react";
 import { GameContext, gameReducer } from "./";
+import { useGameContext } from "@/hooks";
+import { IEvaluateHistoryResponse } from "@/interfaces";
 
 export interface GameState {
 	history: string;
 	isGameCtxLoading: boolean;
+	scoreResult: IEvaluateHistoryResponse;
 }
 
 const GAME_INITIAL_STATE: GameState = {
 	history: "",
-	isGameCtxLoading: false,
+	isGameCtxLoading: true,
+	scoreResult: {
+		score: -1,
+	},
 };
 
 export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(gameReducer, GAME_INITIAL_STATE);
+
+	const { onStartGetResult } = useGameContext();
 
 	const onAddPhraseToHystory = (phraseToAdd: string) => {
 		dispatch({
@@ -21,6 +29,15 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 				state.history.length === 0
 					? phraseToAdd
 					: `${state.history} ${phraseToAdd}`,
+		});
+	};
+
+	const onGetResult = async () => {
+		const data = await onStartGetResult(state.history);
+
+		dispatch({
+			type: "[Game] - Get Score Result",
+			payload: data ? data : state.scoreResult,
 		});
 	};
 
@@ -36,6 +53,7 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 				//Methods
 				onResetGameToInitialState,
 				onAddPhraseToHystory,
+				onGetResult,
 			}}
 		>
 			{children}

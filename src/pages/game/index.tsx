@@ -1,12 +1,9 @@
-import { GameContext } from "@/context";
 import { MainLayout } from "@/layouts";
 import { HistoryTextGeneratedView, SelectPhrasesView } from "@/views";
 import { Box, Container } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
 const GamePage = () => {
-	const { onResetGameToInitialState } = useContext(GameContext);
-
 	return (
 		<MainLayout>
 			<Container>

@@ -1,28 +1,30 @@
+import React, { useContext, useEffect } from "react";
 import { ScoreResult } from "@/components";
-import { SocketContext } from "@/context";
-import { useEvaluateHistory } from "@/hooks";
+import { GameContext, SocketContext } from "@/context";
 import { FullScreenLoadingView, HistoryTextGeneratedView } from "@/views";
 import { Box, Button, Container } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
 
 const ResultPage = () => {
 	const router = useRouter();
-	const { scoreResult, isLoading, onStartGetResult } = useEvaluateHistory();
+
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
+	const { scoreResult, isGameCtxLoading, onResetGameToInitialState } =
+		useContext(GameContext);
 
 	const onMakeAnotherHistory = async () => {
 		await onGetInitialPhrasesRequested();
+		onResetGameToInitialState();
 		router.push("/game");
 	};
 
 	useEffect(() => {
-		if (!isLoading && scoreResult?.score < 0) {
+		if (!isGameCtxLoading && scoreResult?.score < 0) {
 			router.push("/");
 		}
-	}, [router, isLoading, scoreResult?.score]);
+	}, [router, isGameCtxLoading, scoreResult?.score]);
 
-	return isLoading && scoreResult?.score < 0 ? (
+	return isGameCtxLoading && scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
 		<Container maxWidth="sm">
