@@ -1,36 +1,26 @@
 import { FC, PropsWithChildren, useReducer } from "react";
 import { GameContext, gameReducer } from "./";
+import { useGameContext } from "@/hooks";
 import { IEvaluateHistoryResponse } from "@/interfaces";
-import { evaluateStory } from "@/services";
 
 export interface GameState {
 	history: string;
-	scoreResult: IEvaluateHistoryResponse;
 	isGameCtxLoading: boolean;
+	scoreResult: IEvaluateHistoryResponse;
 }
 
 const GAME_INITIAL_STATE: GameState = {
 	history: "",
+	isGameCtxLoading: true,
 	scoreResult: {
 		score: -1,
 	},
-	isGameCtxLoading: false,
 };
 
 export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(gameReducer, GAME_INITIAL_STATE);
 
-	const onGetScoreResult = async () => {
-		onGameToggleLoading(true);
-		try {
-			const { data } = await evaluateStory(state.history);
-			dispatch({ type: "[Game] - Get Score Result", payload: data! });
-		} catch (error) {
-			throw new Error("Error in Game Provider");
-		} finally {
-			onGameToggleLoading(false);
-		}
-	};
+	const { onStartGetResult } = useGameContext();
 
 	const onAddPhraseToHystory = (phraseToAdd: string) => {
 		dispatch({
@@ -42,12 +32,21 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 		});
 	};
 
+	const onGetResult = async () => {
+		const data = await onStartGetResult(state.history);
+
+		dispatch({
+			type: "[Game] - Get Score Result",
+			payload: data ? data : state.scoreResult,
+		});
+	};
+
 	const onResetGameToInitialState = () => {
 		dispatch({ type: "[Game] - Reset State", payload: GAME_INITIAL_STATE });
 	};
 
-	const onGameToggleLoading = (isLoading: boolean) => {
-		dispatch({ type: "[Game] - Toggle Loading", payload: isLoading });
+	const onNewGame = () => {
+		dispatch({ type: "[Game] - New Game" });
 	};
 
 	return (
@@ -56,10 +55,10 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 				...state,
 
 				//Methods
-				onGetScoreResult,
+				onNewGame,
 				onResetGameToInitialState,
 				onAddPhraseToHystory,
-				onGameToggleLoading,
+				onGetResult,
 			}}
 		>
 			{children}

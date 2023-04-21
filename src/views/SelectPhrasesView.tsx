@@ -9,11 +9,11 @@ export const SelectPhrasesView = () => {
 		useContext(SocketContext);
 	const router = useRouter();
 
-	const { onAddPhraseToHystory, onGetScoreResult } = useContext(GameContext);
+	const { onAddPhraseToHystory, onGetResult } = useContext(GameContext);
 
-	const onSelectPhrase = (phrase: string) => {
+	const onSelectPhrase = async (phrase: string) => {
 		onAddPhraseToHystory(phrase);
-		onGetInitialPhrasesRequested();
+		await onGetInitialPhrasesRequested();
 	};
 
 	const targetDate = useMemo(() => {
@@ -23,8 +23,8 @@ export const SelectPhrasesView = () => {
 		return date;
 	}, []);
 
-	const onGetResult = async () => {
-		await onGetScoreResult();
+	const getResult = async () => {
+		await onGetResult();
 		router.push("/game/result");
 	};
 
@@ -39,7 +39,7 @@ export const SelectPhrasesView = () => {
 				Selecciona una Frase
 			</Typography>
 
-			<Button onClick={onGetResult}>History</Button>
+			<Button onClick={getResult}>History</Button>
 
 			<Grid
 				container
