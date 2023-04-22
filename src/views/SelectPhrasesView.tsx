@@ -3,6 +3,7 @@ import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import React, { useContext, useMemo } from "react";
 import { Countdown } from "@/components";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const SelectPhrasesView = () => {
 	const { isLoadingSocket, message, onGetInitialPhrasesRequested } =
@@ -18,7 +19,7 @@ export const SelectPhrasesView = () => {
 
 	const targetDate = useMemo(() => {
 		const date = new Date();
-		date.setMinutes(date.getMinutes() + 2);
+		date.setMinutes(date.getMinutes() + 1);
 
 		return date;
 	}, []);
@@ -38,6 +39,7 @@ export const SelectPhrasesView = () => {
 			<Typography textAlign={"center"} gutterBottom>
 				Selecciona una Frase
 			</Typography>
+			{/* <Link href={"/game/result"}>History</Link> */}
 
 			<Button onClick={getResult}>History</Button>
 

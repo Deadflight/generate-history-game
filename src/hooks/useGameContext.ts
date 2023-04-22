@@ -1,5 +1,5 @@
 import React from "react";
-import { evaluateStory } from "@/services";
+import { evaluateStory, generateTopics } from "@/services";
 
 export const useGameContext = () => {
 	const onStartGetResult = async (history: string) => {
@@ -8,8 +8,19 @@ export const useGameContext = () => {
 
 			return data;
 		} catch (error) {
-			throw new Error("Error in Game Provider");
+			throw new Error("Error in useGameContext Hook onStartGetResult ");
 		}
 	};
+
+	const onGetTopics = async () => {
+		try {
+			const { data } = await generateTopics();
+
+			return data;
+		} catch (error) {
+			throw new Error("Error in useGameContext Hook onGetTopics ");
+		}
+	};
+
 	return { onStartGetResult };
 };

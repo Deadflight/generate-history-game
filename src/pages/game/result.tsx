@@ -4,6 +4,7 @@ import { GameContext, SocketContext } from "@/context";
 import { FullScreenLoadingView, HistoryTextGeneratedView } from "@/views";
 import { Box, Button, Container } from "@mui/material";
 import { useRouter } from "next/router";
+import { useGameContext } from "@/hooks";
 
 const ResultPage = () => {
 	const router = useRouter();
@@ -23,8 +24,6 @@ const ResultPage = () => {
 			router.push("/");
 		}
 	}, [isGameCtxLoading, scoreResult.score, router, isNewGame]);
-
-	console.log({ isGameCtxLoading, scoreResult, isNewGame });
 
 	return isGameCtxLoading || scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />

@@ -44,6 +44,13 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 		});
 	};
 
+	const onSetGameResult = (data: IEvaluateHistoryResponse) => {
+		dispatch({
+			type: "[Game] - Get Score Result",
+			payload: data ? data : state.scoreResult,
+		});
+	};
+
 	const onToggleLoading = (isLoading: boolean) => {
 		dispatch({ type: "[Game] - Toggle Loading", payload: isLoading });
 	};
@@ -61,6 +68,7 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 				onNewGame,
 				onAddPhraseToHystory,
 				onGetResult,
+				onSetGameResult,
 			}}
 		>
 			{children}
