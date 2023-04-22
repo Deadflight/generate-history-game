@@ -4,6 +4,7 @@ import { useGameContext } from "@/hooks";
 import { IEvaluateHistoryResponse } from "@/interfaces";
 
 export interface GameState {
+	isNewGame: boolean;
 	history: string;
 	isGameCtxLoading: boolean;
 	scoreResult: IEvaluateHistoryResponse;
@@ -11,7 +12,8 @@ export interface GameState {
 
 const GAME_INITIAL_STATE: GameState = {
 	history: "",
-	isGameCtxLoading: true,
+	isNewGame: false,
+	isGameCtxLoading: false,
 	scoreResult: {
 		score: -1,
 	},
@@ -33,6 +35,7 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 	};
 
 	const onGetResult = async () => {
+		onToggleLoading(true);
 		const data = await onStartGetResult(state.history);
 
 		dispatch({
@@ -41,8 +44,8 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 		});
 	};
 
-	const onResetGameToInitialState = () => {
-		dispatch({ type: "[Game] - Reset State", payload: GAME_INITIAL_STATE });
+	const onToggleLoading = (isLoading: boolean) => {
+		dispatch({ type: "[Game] - Toggle Loading", payload: isLoading });
 	};
 
 	const onNewGame = () => {
@@ -56,7 +59,6 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 
 				//Methods
 				onNewGame,
-				onResetGameToInitialState,
 				onAddPhraseToHystory,
 				onGetResult,
 			}}

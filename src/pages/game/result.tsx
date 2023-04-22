@@ -9,7 +9,8 @@ const ResultPage = () => {
 	const router = useRouter();
 
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
-	const { scoreResult, isGameCtxLoading, onNewGame } = useContext(GameContext);
+	const { scoreResult, isGameCtxLoading, isNewGame, onNewGame } =
+		useContext(GameContext);
 
 	const onMakeAnotherHistory = async () => {
 		await onGetInitialPhrasesRequested();
@@ -17,12 +18,18 @@ const ResultPage = () => {
 		router.push("/game");
 	};
 
-	return isGameCtxLoading && scoreResult?.score < 0 ? (
+	useEffect(() => {
+		if (!isGameCtxLoading && scoreResult.score < 0 && !isNewGame) {
+			router.push("/");
+		}
+	}, [isGameCtxLoading, scoreResult.score, router, isNewGame]);
+
+	return isGameCtxLoading || scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
 		<Container maxWidth="sm">
 			<Box display={"flex"} flexDirection={"column"} gap={2}>
-				<ScoreResult scoreResult={scoreResult} />
+				<ScoreResult />
 				<HistoryTextGeneratedView />
 				<Box display={"flex"} gap={2} justifyContent={"space-between"}>
 					<Button variant="outlined" color="primary" size="medium">
