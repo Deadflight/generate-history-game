@@ -19,6 +19,7 @@ export const gameReducer = (
 				...state,
 				history: "",
 				isGameCtxLoading: false,
+				isNewGame: true,
 				scoreResult: {
 					score: -1,
 				},
@@ -29,6 +30,7 @@ export const gameReducer = (
 				...state,
 				scoreResult: action.payload,
 				isGameCtxLoading: false,
+				isNewGame: false,
 			};
 
 		case "[Game] - Toggle Loading":

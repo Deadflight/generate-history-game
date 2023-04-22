@@ -1,13 +1,9 @@
 import { GameContext } from "@/context";
-import { IEvaluateHistoryResponse } from "@/interfaces";
 import { Card, CardContent, Typography } from "@mui/material";
 import React, { FC, useContext } from "react";
 
-interface Props {
-	scoreResult: IEvaluateHistoryResponse;
-}
-
-export const ScoreResult: FC<Props> = ({ scoreResult }) => {
+export const ScoreResult: FC = () => {
+	const { scoreResult } = useContext(GameContext);
 	return (
 		<Card
 			sx={{

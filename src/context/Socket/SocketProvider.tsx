@@ -22,7 +22,6 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(socketReducer, Socket_INITIAL_STATE);
 
 	useEffect(() => {
-		console.log("socket");
 		const ws = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
 
 		ws.onopen = () => {
@@ -30,7 +29,6 @@ export const SocketProvider: FC<PropsWithChildren> = ({ children }) => {
 		};
 
 		ws.onmessage = ({ data }: MessageEvent) => {
-			console.log({ data });
 			const message: ISocketData = JSON.parse(data);
 			dispatch({ type: "[Socket] - Get Message", payload: message });
 		};
