@@ -24,6 +24,8 @@ const ResultPage = () => {
 		}
 	}, [isGameCtxLoading, scoreResult.score, router, isNewGame]);
 
+	console.log({ isGameCtxLoading, scoreResult, isNewGame });
+
 	return isGameCtxLoading || scoreResult?.score < 0 ? (
 		<FullScreenLoadingView />
 	) : (
