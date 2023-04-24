@@ -1,36 +1,38 @@
 import React, { useContext, useEffect } from "react";
-import { ScoreResult } from "@/components";
 import { GameContext, SocketContext } from "@/context";
 import { FullScreenLoadingView, HistoryTextGeneratedView } from "@/views";
 import { Box, Button, Container } from "@mui/material";
 import { useRouter } from "next/router";
-import { useGameContext } from "@/hooks";
+import { useGetScoreResult } from "@/hooks";
+import { ScoreResult } from "@/components";
 
 const ResultPage = () => {
 	const router = useRouter();
 
 	const { onGetInitialPhrasesRequested } = useContext(SocketContext);
-	const { scoreResult, isGameCtxLoading, isNewGame, onNewGame } =
-		useContext(GameContext);
+	const { scoreResult, isLoadingScore, setIsLoadingScore } =
+		useGetScoreResult();
+	const { onResetState } = useContext(GameContext);
 
 	const onMakeAnotherHistory = async () => {
 		await onGetInitialPhrasesRequested();
-		onNewGame();
+		setIsLoadingScore(true);
+		onResetState();
 		router.push("/game");
 	};
 
 	useEffect(() => {
-		if (!isGameCtxLoading && scoreResult.score < 0 && !isNewGame) {
+		if (!scoreResult && !isLoadingScore) {
 			router.push("/");
 		}
-	}, [isGameCtxLoading, scoreResult.score, router, isNewGame]);
+	}, [router, scoreResult, isLoadingScore]);
 
-	return isGameCtxLoading || scoreResult?.score < 0 ? (
+	return isLoadingScore || !scoreResult ? (
 		<FullScreenLoadingView />
 	) : (
 		<Container maxWidth="sm">
 			<Box display={"flex"} flexDirection={"column"} gap={2}>
-				<ScoreResult />
+				<ScoreResult scoreResult={scoreResult} />
 				<HistoryTextGeneratedView />
 				<Box display={"flex"} gap={2} justifyContent={"space-between"}>
 					<Button variant="outlined" color="primary" size="medium">
