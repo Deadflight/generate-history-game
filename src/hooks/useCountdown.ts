@@ -6,6 +6,7 @@ export const useCountdown = (targetDate: Date) => {
 	const [countdown, setCountdown] = useState(
 		countdownDate - new Date().getTime()
 	);
+	const [isTimeout, setIsTimeout] = useState(false);
 
 	useEffect(() => {
 		if (countdown > 0) {
@@ -14,8 +15,10 @@ export const useCountdown = (targetDate: Date) => {
 			}, 1000);
 
 			return () => clearInterval(interval);
+		} else {
+			setIsTimeout(true);
 		}
 	}, [countdown, countdownDate]);
 
-	return { countdown };
+	return { countdown, isTimeout };
 };

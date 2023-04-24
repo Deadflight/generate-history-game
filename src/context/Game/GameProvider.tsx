@@ -1,28 +1,20 @@
 import { FC, PropsWithChildren, useReducer } from "react";
 import { GameContext, gameReducer } from "./";
-import { useGameContext } from "@/hooks";
-import { IEvaluateHistoryResponse } from "@/interfaces";
 
 export interface GameState {
 	isNewGame: boolean;
 	history: string;
 	isGameCtxLoading: boolean;
-	scoreResult: IEvaluateHistoryResponse;
 }
 
 const GAME_INITIAL_STATE: GameState = {
 	history: "",
 	isNewGame: false,
 	isGameCtxLoading: false,
-	scoreResult: {
-		score: -1,
-	},
 };
 
 export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 	const [state, dispatch] = useReducer(gameReducer, GAME_INITIAL_STATE);
-
-	const { onStartGetResult } = useGameContext();
 
 	const onAddPhraseToHystory = (phraseToAdd: string) => {
 		dispatch({
@@ -34,22 +26,8 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 		});
 	};
 
-	const onGetResult = async () => {
-		onToggleLoading(true);
-		const data = await onStartGetResult(state.history);
-
-		dispatch({
-			type: "[Game] - Get Score Result",
-			payload: data ? data : state.scoreResult,
-		});
-	};
-
-	const onToggleLoading = (isLoading: boolean) => {
-		dispatch({ type: "[Game] - Toggle Loading", payload: isLoading });
-	};
-
-	const onNewGame = () => {
-		dispatch({ type: "[Game] - New Game" });
+	const onResetState = () => {
+		dispatch({ type: "[Game] - Reset State", payload: GAME_INITIAL_STATE });
 	};
 
 	return (
@@ -58,9 +36,8 @@ export const GameProvider: FC<PropsWithChildren> = ({ children }) => {
 				...state,
 
 				//Methods
-				onNewGame,
+				onResetState,
 				onAddPhraseToHystory,
-				onGetResult,
 			}}
 		>
 			{children}

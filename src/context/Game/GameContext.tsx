@@ -3,9 +3,8 @@ import { GameState } from "./GameProvider";
 
 interface ContextProps extends GameState {
 	//Methods
-	onNewGame: () => void;
+	onResetState: () => void;
 	onAddPhraseToHystory: (phraseToAdd: string) => void;
-	onGetResult: () => Promise<void>;
 }
 
 export const GameContext = createContext({} as ContextProps);

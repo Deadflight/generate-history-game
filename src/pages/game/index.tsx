@@ -21,4 +21,19 @@ const GamePage = () => {
 	);
 };
 
+// // You should use getServerSideProps when:
+// // - Only if you need to pre-render a page whose data must be fetched at request time
+// import { GetServerSideProps } from "next";
+// import { generateTopics } from "@/services";
+
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// 	const data = await generateTopics(); // your fetch function here
+
+// 	return {
+// 		props: {
+// 			data,
+// 		},
+// 	};
+// };
+
 export default GamePage;

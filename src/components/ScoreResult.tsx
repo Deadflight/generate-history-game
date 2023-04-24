@@ -1,9 +1,12 @@
-import { GameContext } from "@/context";
+import { IEvaluateHistoryResponse } from "@/interfaces";
 import { Card, CardContent, Typography } from "@mui/material";
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 
-export const ScoreResult: FC = () => {
-	const { scoreResult } = useContext(GameContext);
+interface Props {
+	scoreResult: IEvaluateHistoryResponse;
+}
+
+export const ScoreResult: FC<Props> = ({ scoreResult }) => {
 	return (
 		<Card
 			sx={{
@@ -20,7 +23,7 @@ export const ScoreResult: FC = () => {
 					textAlign={"center"}
 					fontSize={32}
 					fontWeight={500}
-				>{`${scoreResult.score}/10`}</Typography>
+				>{`${scoreResult?.score}/10`}</Typography>
 			</CardContent>
 		</Card>
 	);
