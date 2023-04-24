@@ -1,16 +1,9 @@
 import { MainLayout } from "@/layouts";
-import { generateTopics } from "@/services";
 import { HistoryTextGeneratedView, SelectPhrasesView } from "@/views";
 import { Box, Container } from "@mui/material";
 import React from "react";
 
 const GamePage = () => {
-	const click = async () => {
-		const data = await generateTopics();
-
-		console.log(data);
-	};
-
 	return (
 		<MainLayout>
 			<Container>
@@ -20,7 +13,6 @@ const GamePage = () => {
 					flexDirection={"column"}
 					gap={2}
 				>
-					<button onClick={click}>Button</button>
 					<SelectPhrasesView />
 					<HistoryTextGeneratedView />
 				</Box>
